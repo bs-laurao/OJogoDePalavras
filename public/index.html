@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f5fb">
+    <meta name="description" content="Um jogo de palavras para descobrir por proximidade de significado.">
+    <title>Palavra secreta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="masthead">
+        <a class="wordmark" href="/" aria-label="Palavra secreta, início">
+          <span class="wordmark-stamp" aria-hidden="true">P</span>
+          <span>Palavra secreta</span>
+        </a>
+        <div class="masthead-meta"><span class="live-indicator" aria-hidden="true"></span>Partida livre <span class="meta-divider">/</span> sem conta</div>
+      </header>
+
+      <section class="intro" aria-labelledby="game-title">
+        <div class="intro-copy">
+          <p class="eyebrow">Um caderno de descobertas</p>
+          <h1 id="game-title">Todo sentido<br>leva a uma palavra.</h1>
+          <p class="lead">Encontre a palavra escondida. Cada tentativa revela o quanto o significado se aproxima.</p>
+        </div>
+        <button class="new-round" id="new-round" type="button" disabled>
+          <span aria-hidden="true">↻</span> Nova rodada
+        </button>
+      </section>
+
+      <div class="game-frame" id="game-frame" data-state="loading">
+        <section class="play-column" aria-labelledby="round-heading">
+          <div class="round-kicker"><span class="round-mark" aria-hidden="true"></span><span id="round-status">Preparando sua rodada</span></div>
+          <h2 id="round-heading">Pense em uma palavra.</h2>
+          <p class="round-instruction">Pode ser qualquer ideia que venha à cabeça. O sentido é a sua pista.</p>
+
+          <section class="proximity-card" aria-labelledby="proximity-title">
+            <div class="proximity-topline">
+              <h3 id="proximity-title">Seu palpite mais próximo</h3>
+              <span class="proximity-label" id="proximity-label">Aguardando palpite</span>
+            </div>
+            <div class="proximity-track" id="proximity-track" role="img" aria-label="Nenhum palpite enviado ainda">
+              <span class="track-cold" aria-hidden="true"></span>
+              <span class="track-warm" aria-hidden="true"></span>
+              <span class="track-hot" aria-hidden="true"></span>
+              <span class="track-marker" id="track-marker" aria-hidden="true"></span>
+            </div>
+            <div class="track-labels" aria-hidden="true"><span>Frio</span><span>Morno</span><span>Quente</span></div>
+            <p class="proximity-word" id="proximity-word">Sua primeira ideia começa a trilha.</p>
+          </section>
+
+          <form class="guess-form" id="guess-form" novalidate>
+            <label class="sr-only" for="guess-input">Digite seu palpite</label>
+            <input id="guess-input" name="guess" type="text" autocomplete="off" autocapitalize="none" maxlength="32" placeholder="Escreva uma palavra" aria-describedby="form-message" disabled>
+            <button id="guess-submit" type="submit" disabled>Tentar <span aria-hidden="true">→</span></button>
+          </form>
+          <p class="form-message" id="form-message" aria-live="polite"></p>
+          <p class="keyboard-hint"><kbd>Enter</kbd> para enviar um palpite</p>
+        </section>
+
+        <aside class="history-column" aria-labelledby="history-title">
+          <div class="history-heading">
+            <div>
+              <p class="eyebrow">Seu percurso</p>
+              <h2 id="history-title">Palpites</h2>
+            </div>
+            <span class="guess-count"><strong id="guess-count">0</strong><span>tentativas</span></span>
+          </div>
+          <ol class="guess-list" id="guess-list" aria-label="Histórico de palpites, mais recente primeiro"></ol>
+          <p class="empty-history" id="empty-history">Ainda não há palpites.<br>Comece por uma palavra que combine com a sua intuição.</p>
+          <div class="history-footer">
+            <span>Tempo <strong id="elapsed">00:00</strong></span>
+            <span>Modo <strong>livre</strong></span>
+          </div>
+          <section class="round-result" id="round-result" aria-live="polite" hidden>
+            <p>A palavra era</p>
+            <strong id="answer"></strong>
+            <p id="result-summary"></p>
+          </section>
+        </aside>
+      </div>
+
+      <footer class="page-footer">
+        <span>Feito para uma pausa entre ideias.</span>
+        <span>Vocabulário em português brasileiro</span>
+      </footer>
+      <div class="sr-only" id="announcement" aria-live="polite" aria-atomic="true"></div>
+    </main>
+  </body>
+</html>

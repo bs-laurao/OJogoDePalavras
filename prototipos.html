@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ee">
+  <title>Caderno de campo | Jogo de palavras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "DM Sans", sans-serif;
+      background: #f4f3ee;
+      color: #18221f;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    * { box-sizing: border-box; }
+    body { min-width: 320px; margin: 0; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible { outline: 3px solid #d36c45; outline-offset: 3px; }
+
+    .page { width: min(1180px, calc(100% - 64px)); margin: 0 auto; padding: 38px 0 56px; }
+    .page-top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 54px; }
+    .wordmark { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .wordmark-mark { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid #253b34; border-radius: 50%; font-family: "DM Mono", monospace; font-size: 12px; }
+    .edition { color: #69716b; font-family: "DM Mono", monospace; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+    .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 340px); align-items: end; gap: 40px; margin-bottom: 32px; }
+    .eyebrow { margin: 0 0 13px; color: #9a4c30; font-family: "DM Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { max-width: 740px; margin: 0; font-family: Fraunces, Georgia, serif; font-size: clamp(42px, 5.3vw, 70px); font-weight: 500; line-height: .98; }
+    .intro-copy { margin: 0 0 5px; color: #5c6660; font-size: 15px; line-height: 1.65; }
+    .prototype-note { display: flex; align-items: flex-start; gap: 10px; margin: 24px 0 28px; padding: 12px 15px; border: 1px solid #d9d8cf; color: #4e5852; font-size: 12px; line-height: 1.5; }
+    .note-dot { flex: 0 0 8px; height: 8px; margin-top: 4px; border-radius: 50%; background: #c45c37; }
+
+    .prototype { --surface: #faf9f4; --ink: #24342d; --muted: #68746b; --line: #dcded1; --accent: #176b5f; --signal: #d4623f; --soft: #e8eee4; overflow: hidden; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--ink); box-shadow: 0 20px 56px #24372e12; transition: background .2s ease, color .2s ease; }
+    .product-bar { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 30px; border-bottom: 1px solid var(--line); }
+    .product-brand { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+    .brand-stamp { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid var(--accent); color: var(--accent); font-family: "DM Mono", monospace; font-size: 11px; }
+    .product-meta { display: flex; align-items: center; gap: 20px; color: var(--muted); font-family: "DM Mono", monospace; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; }
+    .new-round { min-height: 38px; padding: 0 13px; border: 1px solid var(--line); border-radius: 3px; background: transparent; color: var(--ink); font-size: 12px; font-weight: 600; }
+    .new-round:hover { border-color: var(--accent); }
+    .game-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr); min-height: 505px; }
+    .play-area { padding: 42px 46px 30px; border-right: 1px solid var(--line); }
+    .game-kicker { display: flex; align-items: center; gap: 9px; margin: 0 0 19px; color: var(--muted); font-family: "DM Mono", monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+    .game-title { max-width: 440px; margin: 0; font-family: Fraunces, Georgia, serif; font-size: clamp(32px, 3.8vw, 48px); font-weight: 500; line-height: 1.06; }
+    .game-subtitle { margin: 12px 0 30px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    .temperature-panel { min-height: 123px; margin-bottom: 23px; padding: 17px 18px 15px; border: 1px solid var(--line); border-radius: 3px; }
+    .temperature-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .temperature-heading span:first-child { color: var(--muted); font-family: "DM Mono", monospace; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+    .temperature-word { color: var(--accent); font-size: 17px; font-weight: 700; text-transform: uppercase; }
+    .temperature-scale { position: relative; height: 9px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin: 21px 0 9px; }
+    .temperature-scale span { background: var(--soft); }
+    .temperature-scale span:nth-child(2) { opacity: .72; }
+    .temperature-scale span:nth-child(3) { background: color-mix(in srgb, var(--signal) 25%, var(--soft)); }
+    .temperature-marker { position: absolute; top: -4px; left: var(--marker, 72%); width: 3px; height: 17px; border: 1px solid var(--surface); background: var(--accent); box-shadow: 0 0 0 1px var(--accent); transition: left .24s ease; }
+    .scale-labels { display: flex; justify-content: space-between; color: var(--muted); font-family: "DM Mono", monospace; font-size: 9px; text-transform: uppercase; }
+
+    .guess-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px; }
+    .guess-input { width: 100%; min-height: 52px; padding: 0 15px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--ink); font-size: 14px; }
+    .guess-input::placeholder { color: var(--muted); opacity: .82; }
+    .guess-submit { min-width: 116px; min-height: 52px; padding: 0 18px; border: 1px solid var(--accent); border-radius: 3px; background: var(--accent); color: var(--surface); font-size: 12px; font-weight: 700; }
+    .guess-submit:hover { filter: brightness(1.1); }
+    .form-message { min-height: 22px; margin: 8px 0 0; color: var(--muted); font-size: 11px; }
+    .form-message[data-kind="error"] { color: var(--signal); font-weight: 700; }
+    .form-message[data-kind="success"] { color: var(--accent); font-weight: 700; }
+
+    .history-area { display: flex; flex-direction: column; padding: 38px 31px 28px; }
+    .history-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .history-head h3 { margin: 0; font-family: Fraunces, Georgia, serif; font-size: 23px; font-weight: 500; }
+    .guess-total { color: var(--muted); font-family: "DM Mono", monospace; font-size: 10px; }
+    .guess-list { display: flex; flex: 1; flex-direction: column; gap: 0; margin: 0; padding: 0; list-style: none; }
+    .guess-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 60px; border-bottom: 1px solid var(--line); animation: arrive .2s ease-out; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .guess-number { color: var(--muted); font-family: "DM Mono", monospace; font-size: 10px; }
+    .guess-word { overflow: hidden; font-size: 14px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+    .guess-temp { color: var(--muted); font-family: "DM Mono", monospace; font-size: 9px; letter-spacing: .04em; text-transform: uppercase; }
+    .empty-state { margin: auto 0; padding: 24px 8px; color: var(--muted); font-size: 13px; line-height: 1.6; text-align: center; }
+    .history-footer { display: flex; justify-content: space-between; gap: 16px; padding-top: 18px; color: var(--muted); font-family: "DM Mono", monospace; font-size: 10px; text-transform: uppercase; }
+    .history-footer strong { color: var(--ink); font-weight: 500; }
+    .game-end { display: none; margin-top: 19px; padding: 15px 0 0; border-top: 1px solid var(--line); }
+    .game-end.is-visible { display: block; }
+    .game-end p { margin: 0 0 12px; font-size: 13px; line-height: 1.6; }
+    .game-end strong { color: var(--accent); font-family: Fraunces, Georgia, serif; font-size: 21px; font-weight: 600; }
+    .play-again { min-height: 40px; padding: 0 13px; border: 1px solid var(--accent); border-radius: 3px; background: transparent; color: var(--ink); font-size: 12px; font-weight: 700; }
+    .prototype-caption { display: flex; justify-content: space-between; gap: 24px; margin: 12px 2px 0; color: #737a74; font-size: 11px; line-height: 1.5; }
+    .prototype-caption span:last-child { font-family: "DM Mono", monospace; text-align: right; }
+    .page-foot { display: flex; justify-content: space-between; gap: 20px; margin-top: 37px; padding-top: 14px; border-top: 1px solid #d6d6cd; color: #6d746e; font-size: 11px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 32px, 580px); padding-top: 24px; }
+      .page-top { padding-bottom: 36px; }
+      .intro { grid-template-columns: 1fr; gap: 15px; }
+      .intro-copy { max-width: 540px; }
+      .product-bar { min-height: 58px; padding: 0 15px; }
+      .product-meta { display: none; }
+      .game-layout { grid-template-columns: 1fr; }
+      .play-area { padding: 31px 20px 23px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .history-area { min-height: 300px; padding: 25px 20px 22px; }
+      .game-title { font-size: 38px; }
+      .guess-submit { min-width: 96px; padding: 0 13px; }
+      .prototype-caption, .page-foot { flex-direction: column; gap: 6px; }
+    }
+
+    @media (max-width: 420px) {
+      .page { width: calc(100% - 24px); }
+      .edition { font-size: 9px; }
+      h1 { font-size: 43px; }
+      .product-brand { font-size: 10px; }
+      .new-round { min-height: 36px; padding: 0 9px; font-size: 11px; }
+      .guess-form { grid-template-columns: 1fr; }
+      .guess-submit { width: 100%; }
+      .temperature-panel { padding-right: 13px; padding-left: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-top">
+      <div class="wordmark"><span class="wordmark-mark" aria-hidden="true">P</span> Laboratório de produto</div>
+      <div class="edition">Jogo de palavras <span aria-hidden="true">/</span> protótipo</div>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Caderno de campo</p>
+        <h1 id="page-title">Uma palavra.<br>Uma descoberta.</h1>
+      </div>
+      <p class="intro-copy">Uma interface editorial, serena e investigativa. Cada palpite oferece uma pista para aproximar você da palavra secreta.</p>
+    </section>
+
+    <p class="prototype-note"><span class="note-dot" aria-hidden="true"></span><span>Protótipo navegável. A proximidade e os palpites são demonstrativos; as regras do jogo continuam em aberto no PRD.</span></p>
+
+    <article class="prototype" id="prototype" aria-label="Protótipo Caderno de campo">
+      <header class="product-bar">
+        <div class="product-brand"><span class="brand-stamp" aria-hidden="true">P</span> Palavra secreta</div>
+        <div class="product-meta"><span>Partida livre</span><span>Sem conta</span></div>
+        <button class="new-round" id="new-round" type="button">Nova rodada</button>
+      </header>
+
+      <div class="game-layout">
+        <section class="play-area" aria-labelledby="game-title">
+          <p class="game-kicker"><span class="live-dot" aria-hidden="true"></span><span id="round-label">Rodada em andamento</span></p>
+          <h2 class="game-title" id="game-title">Encontre o caminho até a palavra.</h2>
+          <p class="game-subtitle">Cada palpite deixa uma pista. O sentido vai se aproximando.</p>
+
+          <div class="temperature-panel" aria-label="Proximidade do palpite mais recente">
+            <div class="temperature-heading"><span>Palpite mais recente</span><strong class="temperature-word" id="field-word">Quente</strong></div>
+            <div class="temperature-scale" id="field-scale" style="--marker: 72%" aria-hidden="true"><span></span><span></span><span></span><i class="temperature-marker"></i></div>
+            <div class="scale-labels" aria-hidden="true"><span>Frio</span><span>Morno</span><span>Quente</span></div>
+          </div>
+
+          <form class="guess-form" id="guess-form" novalidate>
+            <label class="sr-only" for="guess-input">Seu palpite</label>
+            <input class="guess-input" id="guess-input" name="guess" type="text" autocomplete="off" autocapitalize="none" placeholder="Escreva uma palavra" maxlength="32" aria-describedby="form-message">
+            <button class="guess-submit" type="submit">Tentar</button>
+          </form>
+          <p class="form-message" id="form-message" data-kind="" aria-live="polite"></p>
+        </section>
+
+        <aside class="history-area" aria-label="Histórico da partida">
+          <div class="history-head"><h3>Seus palpites</h3><span class="guess-total"><span id="guess-count">3</span> tentativas</span></div>
+          <ol class="guess-list" id="guess-list" aria-label="Palpites em ordem de envio">
+            <li class="guess-row"><span class="guess-number">01</span><span class="guess-word">Mar</span><span class="guess-temp">Frio</span></li>
+            <li class="guess-row"><span class="guess-number">02</span><span class="guess-word">Folha</span><span class="guess-temp">Morno</span></li>
+            <li class="guess-row"><span class="guess-number">03</span><span class="guess-word">Flor</span><span class="guess-temp">Quente</span></li>
+          </ol>
+          <p class="empty-state" id="empty-state" hidden>Nenhum palpite ainda.<br>A primeira ideia já vale.</p>
+          <div class="history-footer"><span>Tempo <strong id="elapsed">00:42</strong></span><span>Modo <strong>livre</strong></span></div>
+          <div class="game-end" id="game-end" aria-live="polite">
+            <p id="end-copy"></p>
+            <button class="play-again" id="play-again" type="button">Jogar de novo</button>
+          </div>
+        </aside>
+      </div>
+    </article>
+
+    <div class="prototype-caption"><span>Conceito visual: Caderno de campo. A proximidade é expressa por palavras, com uma trilha visual de apoio.</span></div>
+
+    <footer class="page-foot"><span>Exploração de UX e identidade visual</span><span>Baseado no escopo atual de PRD.md</span></footer>
+  </main>
+
+  <script>
+    const guessForm = document.querySelector("#guess-form");
+    const guessInput = document.querySelector("#guess-input");
+    const guessList = document.querySelector("#guess-list");
+    const guessCount = document.querySelector("#guess-count");
+    const message = document.querySelector("#form-message");
+    const gameEnd = document.querySelector("#game-end");
+    const elapsed = document.querySelector("#elapsed");
+    const emptyState = document.querySelector("#empty-state");
+    let guesses = [
+      { word: "Mar", score: 14 },
+      { word: "Folha", score: 49 },
+      { word: "Flor", score: 72 }
+    ];
+    let seconds = 42;
+    let finished = false;
+
+    function normalize(word) {
+      return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLocaleLowerCase("pt-BR");
+    }
+
+    function distanceLabel(score) {
+      if (score >= 100) return "Acertou";
+      if (score >= 70) return "Quente";
+      if (score >= 38) return "Morno";
+      return "Frio";
+    }
+
+    function demoScore(word) {
+      const known = { jardim: 100, flor: 72, flores: 69, planta: 63, arvore: 57, folha: 49, parque: 45, campo: 39, mar: 14, oceano: 12, pedra: 22, casa: 31 };
+      const key = normalize(word);
+      if (known[key] !== undefined) return known[key];
+      return 18 + [...key].reduce((total, char, index) => total + char.charCodeAt(0) * (index + 3), 0) % 48;
+    }
+
+    function renderGuesses() {
+      guessList.replaceChildren();
+      [...guesses].reverse().forEach((guess, index) => {
+        const row = document.createElement("li");
+        row.className = "guess-row";
+        const number = document.createElement("span");
+        number.className = "guess-number";
+        number.textContent = String(guesses.length - index).padStart(2, "0");
+        const word = document.createElement("span");
+        word.className = "guess-word";
+        word.textContent = guess.word;
+        const temp = document.createElement("span");
+        temp.className = "guess-temp";
+        temp.textContent = distanceLabel(guess.score);
+        row.append(number, word, temp);
+        guessList.append(row);
+      });
+      guessCount.textContent = String(guesses.length);
+      emptyState.hidden = guesses.length !== 0;
+      guessList.hidden = guesses.length === 0;
+    }
+
+    function updateFeedback(guess) {
+      const label = distanceLabel(guess.score);
+      document.querySelector("#field-word").textContent = label;
+      document.querySelector("#field-scale").style.setProperty("--marker", `${Math.max(4, guess.score)}%`);
+    }
+
+    function setMessage(text, kind = "") {
+      message.textContent = text;
+      message.dataset.kind = kind;
+    }
+
+    function finishGame(won, answer = "jardim") {
+      finished = true;
+      document.querySelector("#round-label").textContent = won ? "Palavra encontrada" : "Rodada encerrada";
+      document.querySelector("#end-copy").innerHTML = won
+        ? `A palavra era <strong>${answer}</strong>. Você chegou lá em ${guesses.length} palpites e ${elapsed.textContent}.`
+        : `A palavra era <strong>${answer}</strong>. Foram ${guesses.length} palpites.`;
+      gameEnd.classList.add("is-visible");
+      guessInput.disabled = true;
+      guessForm.querySelector("button").disabled = true;
+      setMessage(won ? "Palavra encontrada." : "Rodada encerrada.", "success");
+    }
+
+    guessForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (finished) return;
+      const value = guessInput.value.trim();
+      if (!value) {
+        setMessage("Escreva uma palavra para continuar.", "error");
+        guessInput.focus();
+        return;
+      }
+      const key = normalize(value);
+      if ([...guesses].some((guess) => normalize(guess.word) === key)) {
+        setMessage("Esse palpite já está no seu histórico.", "error");
+        guessInput.select();
+        return;
+      }
+      if (/[0-9]/.test(value)) {
+        setMessage("Use apenas letras neste palpite.", "error");
+        guessInput.focus();
+        return;
+      }
+      const guess = { word: value, score: demoScore(value) };
+      guesses.push(guess);
+      seconds += 7;
+      elapsed.textContent = `00:${String(seconds).padStart(2, "0")}`;
+      renderGuesses();
+      updateFeedback(guess);
+      guessInput.value = "";
+      if (guess.score >= 100) finishGame(true, value);
+      else setMessage(`${value}: ${distanceLabel(guess.score)}.`, "success");
+    });
+
+    function resetGame() {
+      guesses = [];
+      seconds = 0;
+      finished = false;
+      elapsed.textContent = "00:00";
+      document.querySelector("#round-label").textContent = "Rodada em andamento";
+      gameEnd.classList.remove("is-visible");
+      guessInput.disabled = false;
+      guessForm.querySelector("button").disabled = false;
+      guessInput.value = "";
+      setMessage("Nova rodada pronta.", "success");
+      renderGuesses();
+      updateFeedback({ word: "—", score: 0 });
+      guessInput.focus();
+    }
+
+    document.querySelector("#new-round").addEventListener("click", resetGame);
+    document.querySelector("#play-again").addEventListener("click", resetGame);
+
+  </script>
+</body>
+</html>
